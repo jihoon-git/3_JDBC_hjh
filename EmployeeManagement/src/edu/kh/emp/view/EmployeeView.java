@@ -312,7 +312,7 @@ public class EmployeeView {
 	
 		 System.out.println("<입력 받은 부서와 일치하는 모든 사원 정보 조회>");
 		 System.out.print("부서명 입력 : ");
-		 String deptTitle=sc.nextLine();
+		 String deptTitle=sc.next();
 
 		List<Employee> selectDeptEmp = dao.selectDeptEmp(deptTitle);
 		 
