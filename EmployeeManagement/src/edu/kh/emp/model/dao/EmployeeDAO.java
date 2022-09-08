@@ -583,8 +583,8 @@ public class EmployeeDAO {
 	/** 직급별 급여 평균 조회
 	 * @return map
 	 */
-	public Map<String, Integer> selectJobAvgSalary() {
-		Map<String, Integer> map = new HashMap<>();
+	public Map<String, Double> selectJobAvgSalary() {
+		Map<String, Double> map = new HashMap<>();
 		
 		try {
 			
@@ -601,7 +601,7 @@ public class EmployeeDAO {
 			
 			while(rs.next()) {
 				String jobName = rs.getString("JOB_NAME");
-				int salary = rs.getInt("SALARY");
+				double salary = rs.getDouble("SALARY");
 				
 				map.put(jobName, salary);
 			}

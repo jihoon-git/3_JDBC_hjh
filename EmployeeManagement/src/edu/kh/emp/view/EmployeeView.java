@@ -359,7 +359,7 @@ public class EmployeeView {
 	 */
 	public void selectJobAvgSalary() {
 		System.out.println("<직급별 급여 평균 조회>");
-		Map<String, Integer> map = dao.selectJobAvgSalary();
+		Map<String, Double> map = dao.selectJobAvgSalary();
 		
 		for(String key : map.keySet()) { 
 			
