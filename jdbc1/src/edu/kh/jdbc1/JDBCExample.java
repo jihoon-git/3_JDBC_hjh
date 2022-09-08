@@ -53,7 +53,7 @@ public class JDBCExample {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			// -> () 안에 작성된 클래스의 객체를 반환
 			// -> 메모리에 객체가 생성되어지고 JDBC 필요 시 알아서 참조해서 사용
-			// --> 생략해도 자동으로 메모리 로드가 진행됨(명시적으로 접슨하는걸 권장)
+			// --> 생략해도 자동으로 메모리 로드가 진행됨(명시적으로 작성하는걸 권장)
 			
 			// 2. 연결 정보를 잠은 Connection
 			// -> DriverManager 객체를 이용해서 Connection 객체를 만들어 얻어옴
@@ -62,17 +62,18 @@ public class JDBCExample {
 			
 			String ip = "localhost"; //DB 서버 컴퓨터 IP
 			// localhost = 127.0.0.1 (loop back ip)
+			// 115.90.212.22 (서버컴)
 			
 			String port = ":1521"; // 포트번호
-//			1521 기본값
-//			9000 서버컴
+//			1521 (기본값)
+//			9000 (서버컴)
 			
 			String sid = ":XE"; // DB 이름
 			String user = "kh_hjh";
 			String pw = "kh1234";
 			
 			//DriverManager 
-			// : 메모리에 로드된 JBBC 드라이버를 이용해서
+			// : 메모리에 로드된 JDBC 드라이버를 이용해서
 			//Connection 객체를 만드는 역할
 			
 			conn = DriverManager.getConnection( type + ip + port + sid, user, pw);
