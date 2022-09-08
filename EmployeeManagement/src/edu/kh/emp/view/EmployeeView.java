@@ -52,6 +52,7 @@ public class EmployeeView {
 				
 				System.out.print("메뉴 선택 >> ");
 				input = sc.nextInt();
+				sc.nextLine(); //추가!
 				
 				System.out.println();
 				
@@ -312,7 +313,7 @@ public class EmployeeView {
 	
 		 System.out.println("<입력 받은 부서와 일치하는 모든 사원 정보 조회>");
 		 System.out.print("부서명 입력 : ");
-		 String deptTitle=sc.next();
+		 String deptTitle=sc.nextLine();
 
 		List<Employee> selectDeptEmp = dao.selectDeptEmp(deptTitle);
 		 
