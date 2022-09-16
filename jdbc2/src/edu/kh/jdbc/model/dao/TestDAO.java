@@ -86,4 +86,24 @@ public class TestDAO {
 		return result;
 	}
 
+	public int update(Connection conn, TestVO vo1) throws SQLException {
+		int result = 0;
+
+		try {
+			String sql = prop.getProperty("update");
+
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, vo1.getTestNo());
+			pstmt.setString(2, vo1.getTestTitle());
+			pstmt.setString(3, vo1.getTestContent());
+			
+			result = pstmt.executeUpdate(); 
+		} finally {
+			close(pstmt);			
+		}
+		
+		return result;
+	}
+
 }

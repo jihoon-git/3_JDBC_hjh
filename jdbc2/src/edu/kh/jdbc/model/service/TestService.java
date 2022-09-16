@@ -111,6 +111,23 @@ public class TestService {
 		return res; // insert 3회 결과 반환
 	}
 
+	/** 번호가 일치가 행 제목, 내용 수정 서비스
+	 * @param vo1
+	 * @return result
+	 * @throws Exception
+	 */
+	public int update(TestVO vo1) throws Exception{
+		Connection conn = getConnection();
+
+		int result = dao.update(conn, vo1);
+
+		if(result>0) commit(conn);
+		else rollback(conn);
+		close(conn);
+
+		return result;
+	}
+
 	
 
 }
