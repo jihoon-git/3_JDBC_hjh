@@ -86,7 +86,7 @@ public class TestDAO {
 		return result;
 	}
 
-	public int update(Connection conn, TestVO vo1) throws SQLException {
+	public int update(Connection conn, TestVO vo) throws SQLException {
 		int result = 0;
 
 		try {
@@ -94,9 +94,9 @@ public class TestDAO {
 
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, vo1.getTestNo());
-			pstmt.setString(2, vo1.getTestTitle());
-			pstmt.setString(3, vo1.getTestContent());
+			pstmt.setString(1, vo.getTestContent() );
+			pstmt.setString(2, vo.getTestTitle());
+			pstmt.setInt(3, vo.getTestNo());
 			
 			result = pstmt.executeUpdate(); 
 		} finally {

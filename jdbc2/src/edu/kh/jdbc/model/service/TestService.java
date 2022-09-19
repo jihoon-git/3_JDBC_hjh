@@ -112,14 +112,14 @@ public class TestService {
 	}
 
 	/** 번호가 일치가 행 제목, 내용 수정 서비스
-	 * @param vo1
+	 * @param vo
 	 * @return result
 	 * @throws Exception
 	 */
-	public int update(TestVO vo1) throws Exception{
+	public int update(TestVO vo) throws SQLException{
 		Connection conn = getConnection();
 
-		int result = dao.update(conn, vo1);
+		int result = dao.update(conn, vo);
 
 		if(result>0) commit(conn);
 		else rollback(conn);
