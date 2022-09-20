@@ -34,6 +34,7 @@ public class Member {
 		this.memberGender = memberGender;
 		this.enrollDate = enrollDate;
 	}
+	
 
 	public int getMemberNo() {
 		return memberNo;
