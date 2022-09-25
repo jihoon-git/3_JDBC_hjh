@@ -107,10 +107,29 @@ VALUES(SEQ_USER_NO.NEXTVAL, ?, ?, ?, ?,
 
 -- 회원기능
 -- 내 회원정보 조회
--- 비밀번호 수정
--- 회원정보 수정(전화번호, 주소)
--- 회원 탈퇴
+-- 아이디/비밀번호/이름/전화번호/주소/가입일
+SELECT USER_ID, USER_PW, USER_NAME, USER_PHONE, USER_ADDR, ENROLL_DATE
+FROM TB_USER
+WHERE USER_ID = 'asdf01'
+AND SECESSION_FL = 'N';
 
+-- 비밀번호 수정
+UPDATE TB_USER SET
+USER_PW = '바꾼비밀번호'
+WHERE USER_NO = 1
+AND USER_PW ='현재비밀번호';
+
+-- 회원정보 수정(전화번호, 주소)
+UPDATE TB_USER SET
+USER_PHONE = '010-1111-1111'
+USER_ADDR ='서울시 수정구 수정동 수정한주소'
+WHERE USER_NO = 1;
+
+-- 회원 탈퇴
+UPDATE TB_USER SET
+SECESSION_FL = 'N'
+WHERE MEMBER_NO = ?
+AND MEMBER_PW = ?;
 
 ---------------------------------
 -- 배송 테이블 생성
@@ -270,7 +289,38 @@ COMMIT;
 
 -- 주문 내역 메뉴
 -- 내 주문 내역 조회
--- 내 배송 상태 조회
--- 주문상품/수량 변경 (주문번호 입력받아 상품명/수량 변경)(배송 상태가 출고 전이어야 함)
+-- 주문번호/주문날짜/상품명/수량/가격/배송상태/(취소여부(N))
+
+SELECT ORDER_NO, ORDER_DATE, SNACK_NAME, QUANTITY, SHIPPING, WITHDRAW
+FROM TB_ORDER
+JOIN TB_SNACK USING(SNACK_NO)
+JOIN TB_SHIPPING USING(SHIPPING_CODE)
+WHERE USER_NO = 1
+AND WITHDRAW = 'N';
+
+-- 주문수량 변경 (주문번호 입력받아 수량 변경)(배송 상태가 결제완료 상태여야 함)
+UPDATE TB_ORDER SET
+QUANTITY = 1
+WHERE ORDER_NO = 1
+AND SHIPPING_CODE != '01'
+AND WITHDRAW = 'N';
+
+ROLLBACK;
+COMMIT;
+
 -- 주문 취소 (주문번호 입력받아 주문 취소)(배송 상태가 출고 전이어야 함)
+UPDATE TB_ORDER SET
+WITHDRAW = 'Y',
+SHIPPING_CODE = '05'
+WHERE ORDER_NO = 2
+AND WITHDRAW = 'N';
+--
+SELECT * FROM TB_ORDER;
+
 -- 내 취소 내역 조회 (취소여부 Y인 주문만 출력)
+SELECT ORDER_NO, ORDER_DATE, SNACK_NAME, QUANTITY, SHIPPING, WITHDRAW
+FROM TB_ORDER
+JOIN TB_SNACK USING(SNACK_NO)
+JOIN TB_SHIPPING USING(SHIPPING_CODE)
+WHERE USER_NO = 1
+AND WITHDRAW = 'Y';
