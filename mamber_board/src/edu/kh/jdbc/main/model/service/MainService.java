@@ -57,7 +57,7 @@ public class MainService {
 		return result;
 	}
 
-	/**
+	/** 로그인 서비스
 	 * @param memberId
 	 * @param memberPw
 	 * @return loginMember
