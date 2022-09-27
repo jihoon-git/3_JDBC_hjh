@@ -46,6 +46,25 @@ public class OrderService {
 		return result;
 	}
 
+	/** 주문 수량 변경 서비스
+	 * @param order
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateQuantity(Order order) throws Exception {
+		Connection conn = getConnection();
+		
+		int result = dao.updateQuantity(conn, order);
+		
+		if(result>0) commit(conn);
+		else rollback(conn);
+		
+		close(conn);
+		
+		return result;
+	}
+
+	
 	/** 주문 취소 서비스
 	 * @param orderNo
 	 * @param userNo
@@ -55,7 +74,7 @@ public class OrderService {
 	public int withdrawOrder(int orderNo, int userNo) throws Exception {
 		Connection conn = getConnection();
 		
-		int result = dao.secession(conn, orderNo, userNo);
+		int result = dao.withdrawOrder(conn, orderNo, userNo);
 		
 		if(result>0) commit(conn);
 		else rollback(conn);
@@ -67,7 +86,7 @@ public class OrderService {
 	
 	
 	/** 내 주문 내역 조회 서비스
-	 * @return
+	 * @return orderList
 	 * @throws Exception
 	 */
 	public List<Order> selectMyOrder() throws Exception{
@@ -79,6 +98,8 @@ public class OrderService {
 		
 		return orderList;
 	}
+
+
 
 
 

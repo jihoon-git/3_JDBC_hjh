@@ -25,10 +25,11 @@ ORDER BY 1 DESC
 <!-- 주문 수량 변경 -->
 <entry key = "updateQuantity">
 UPDATE TB_ORDER SET
-QUANTITY = 1
+QUANTITY = ?
 WHERE ORDER_NO = ?
-AND SHIPPING_CODE != '01'
+AND SHIPPING_CODE = '01'
 AND WITHDRAW = 'N'
+AND USER_NO = ?
 </entry>
 <!-- 주문 취소 -->
 <entry key = "withdrawOrder">

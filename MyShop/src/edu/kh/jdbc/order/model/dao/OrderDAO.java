@@ -95,14 +95,41 @@ public class OrderDAO {
 		return result;
 	}
 
-	/** 주문 취소 서비스
+	/** 주문 수량 변경 DAO
+	 * @param conn
+	 * @param order
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateQuantity(Connection conn, Order order) throws Exception {
+		int result = 0;
+		
+		try {
+			
+			String sql = prop.getProperty("updateQuantity");
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, order.getQuantity());
+			pstmt.setInt(2, order.getOrderNo());
+			pstmt.setInt(3, order.getOrderNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	/** 주문 취소 DAO
 	 * @param conn
 	 * @param orderNo
 	 * @param userNo
 	 * @return result
 	 * @throws Exception
 	 */
-	public int secession(Connection conn, int orderNo, int userNo) throws Exception {
+	public int withdrawOrder(Connection conn, int orderNo, int userNo) throws Exception {
 		int result = 0;
 		
 		try {
@@ -154,6 +181,8 @@ public class OrderDAO {
 		}
 		return orderList;
 	}
+
+
 
 
 	

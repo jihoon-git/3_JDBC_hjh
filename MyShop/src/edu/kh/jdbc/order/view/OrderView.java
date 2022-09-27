@@ -162,14 +162,29 @@ public class OrderView {
 	 */
 	private void updateQuantity() {
 		
-		System.out.println("\n[주문 수량 변경]\n");
-		
 		try {
+			System.out.println("\n[주문 수량 변경]\n");
 			System.out.print("주문 번호 입력 : ");
-			String orderNo = sc.next();
+			int orderNo = sc.nextInt();
+			sc.nextLine();
 			
-			while(true) {
+			boolean flag = true;
+			
+			System.out.print("변경할 수량 입력 : ");
+			int quantity = sc.nextInt();
+			
+			Order order = new Order();
+			order.setUserNo(loginUser.getUserNo());
+			order.setOrderNo(orderNo);
+			order.setQuantity(quantity);
 
+			int result = service.updateQuantity(order);
+
+			if(result>0) {
+				
+				System.out.println("\n[주문 수량이 변경 되었습니다.]\n");
+			} else {
+				System.out.println("\n[존재하지 않는 주문 번호입니다.]\n");
 			}
 		
 		
