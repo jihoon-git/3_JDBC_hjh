@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import edu.kh.jdbc.main.model.service.MainService;
+import edu.kh.jdbc.user.view.UserView;
 import edu.kh.jdbc.user.vo.User;
 
 /*
@@ -15,7 +16,7 @@ import edu.kh.jdbc.user.vo.User;
 -- 로그인 메뉴
 1. 로그인
 1) 회원 기능
-2) 주문 내역
+2) 주문 기능
 0) 로그아웃
 99) 프로그램 종료
 
@@ -34,7 +35,7 @@ import edu.kh.jdbc.user.vo.User;
 4. 회원 탈퇴
 0. 메인메뉴로 이동
 
--- (로그인 후) 주문 내역 메뉴
+-- (로그인 후) 주문 기능 메뉴
 (1. 전체 상품 목록 조회)
 (1. 주문하기)
 (-- 주문메뉴 따로 뺄지 생각해볼 것)
@@ -45,6 +46,11 @@ import edu.kh.jdbc.user.vo.User;
 (배송 상태가 출고전일때만 가능)
 4. 취소 내역 조회 - 취소여부 Y인 주문만 출력
 0. 메인메뉴로 이동
+
+--(로그인 후) 관리자 메뉴(보류)
+1. 전체 회원 정보 조회
+2. 전체 주문 내역 조회
+3. 취소 처리
 
  * 
  * */
@@ -57,6 +63,8 @@ public class MainView {
 	
 	// 로그인 회원 정보
 	public static User loginUser = null;
+	
+	private UserView userView = new UserView();
 
 	/**
 	 *  메인 메뉴 출력 메서드
@@ -95,12 +103,15 @@ public class MainView {
 						
 						switch(input) {
 						
-						case 1:  break;
+						case 1: userView.userMenu(loginUser); break;
 						case 2:  break;
-						case 0:  break;
-						case 99:  break;
-						default:
-						
+						case 0: loginUser = null;
+							System.out.println("\n[로그아웃 되었습니다.]\n");
+							input=-1; break;
+						case 99: System.out.println("프로그램이 종료 되었습니다."); 
+							input=0; break;
+						default: System.out.println("메뉴에 있는 번호만 입력해주세요.");
+
 						}
 						System.out.println();
 				}

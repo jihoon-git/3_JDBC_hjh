@@ -112,6 +112,12 @@ WHERE USER_ID = 'asdf01'
 AND SECESSION_FL = 'N';
 
 -- 로그인
+	SELECT USER_NO, USER_ID, USER_PW, USER_NAME, USER_PHONE, USER_ADDR, 
+		TO_CHAR(ENROLL_DATE, 'YYYY"년" MM"월" DD"일" HH24:MI:SS') ENROLL_DATE
+	FROM TB_USER
+	WHERE USER_ID =?
+	AND USER_PW=?
+	AND SECESSION_FL = 'N';
 
 -- 회원기능
 -- 내 회원정보 조회
@@ -129,15 +135,17 @@ AND USER_PW ='현재비밀번호';
 
 -- 회원정보 수정(전화번호, 주소)
 UPDATE TB_USER SET
-USER_PHONE = '010-1111-1111'
+USER_PHONE = '010-1111-1111',
 USER_ADDR ='서울시 수정구 수정동 수정한주소'
 WHERE USER_NO = 1;
 
+ROLLBACK;
+
 -- 회원 탈퇴
-UPDATE TB_USER SET
-SECESSION_FL = 'N'
-WHERE MEMBER_NO = ?
-AND MEMBER_PW = ?;
+	UPDATE TB_USER SET
+	SECESSION_FL = 'Y'
+	WHERE USER_NO = ?
+	AND USER_PW = ?;
 
 ---------------------------------
 -- 배송 테이블 생성
