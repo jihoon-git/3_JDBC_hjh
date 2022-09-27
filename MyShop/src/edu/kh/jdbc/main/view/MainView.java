@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import edu.kh.jdbc.main.model.service.MainService;
+import edu.kh.jdbc.order.view.OrderView;
 import edu.kh.jdbc.user.view.UserView;
 import edu.kh.jdbc.user.vo.User;
 
@@ -36,15 +37,14 @@ import edu.kh.jdbc.user.vo.User;
 0. 메인메뉴로 이동
 
 -- (로그인 후) 주문 기능 메뉴
-(1. 전체 상품 목록 조회)
-(1. 주문하기)
-(-- 주문메뉴 따로 뺄지 생각해볼 것)
-1. 내 주문 내역 조회 (전체 출력) - (회원번호)/주문번호/주문날짜/상품명/옵션/수량/가격/배송상태/(취소여부(N))
-2. 주문수량 변경 - 주문 날짜와 상품명 입력받아 수량 변경
+1. 전체 상품 목록 조회
+2. 주문하기
+3. 내 주문 내역 조회 (전체 출력) - (회원번호)/주문번호/주문날짜/상품명/옵션/수량/가격/배송상태/(취소여부(N))
+4. 주문수량 변경 - 주문 날짜와 상품명 입력받아 수량 변경
 (배송 상태가 출고전이어야 함)
-3. 주문 취소 - 주문 번호 입력 받아 주문 취소
+5. 주문 취소 - 주문 번호 입력 받아 주문 취소
 (배송 상태가 출고전일때만 가능)
-4. 취소 내역 조회 - 취소여부 Y인 주문만 출력
+6. 취소 내역 조회 - 취소여부 Y인 주문만 출력
 0. 메인메뉴로 이동
 
 --(로그인 후) 관리자 메뉴(보류)
@@ -64,7 +64,9 @@ public class MainView {
 	// 로그인 회원 정보
 	public static User loginUser = null;
 	
-	private UserView userView = new UserView();
+	private UserView userView = new UserView(); // 회원 기능 메뉴 객체
+	
+	private OrderView orderView = new OrderView(); // 주문 기능 메뉴 객체
 
 	/**
 	 *  메인 메뉴 출력 메서드
@@ -104,7 +106,7 @@ public class MainView {
 						switch(input) {
 						
 						case 1: userView.userMenu(loginUser); break;
-						case 2:  break;
+						case 2: orderView.orderMenu(loginUser); break;
 						case 0: loginUser = null;
 							System.out.println("\n[로그아웃 되었습니다.]\n");
 							input=-1; break;
