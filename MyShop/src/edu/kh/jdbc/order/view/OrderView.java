@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import edu.kh.jdbc.main.view.MainView;
 import edu.kh.jdbc.order.model.service.OrderService;
 import edu.kh.jdbc.order.vo.Order;
 import edu.kh.jdbc.user.vo.User;
@@ -14,12 +15,9 @@ public class OrderView {
 	
 	private OrderService service = new OrderService();
 	
-	private User loginUser = null;
-	
 	private int input = -1;
 	
-	public void orderMenu(User loginUser) {
-		this.loginUser=loginUser;
+	public void orderMenu() {
 		
 		do {
 			try {
@@ -37,6 +35,9 @@ public class OrderView {
 				sc.nextLine();
 				
 				System.out.println();
+				
+				// 로그인한 회원의 회원 번호
+				int userNo = MainView.loginUser.getUserNo();
 				
 				switch(input) {
 				case 1: selectProduct(); break;
@@ -102,7 +103,7 @@ public class OrderView {
 			int quantity = sc.nextInt();
 			
 			Order order = new Order();
-			order.setUserNo(loginUser.getUserNo());
+			order.setUserNo(MainView.loginUser.getUserNo());
 			order.setSnackNo(snackNo);
 			order.setQuantity(quantity);
 			
@@ -128,19 +129,19 @@ public class OrderView {
 	 */
 	private void selectMyOrder() {
 		
-		System.out.println("\n[내 주문 내역 조회]\n");
+		System.out.println("\n[내 전체 주문 내역]\n");
 		
 		try {
-			List<Order> orderList = service.selectMyOrder();
+			List<Order> orderList = service.selectMyOrder(MainView.loginUser.getUserNo());
 			
 			if(orderList.isEmpty()) {
 				System.out.println("\n[조회 결과가 없습니다.]");
 			} else {
-				System.out.println(" 주문번호      주문날짜       상품명     수량    가격     배송상태");
-				System.out.println("----------------------------------------------------------");
+				System.out.println(" 주문번호      주문날짜         상품명       수량      가격        배송상태");
+				System.out.println("------------------------------------------------------------------------");
 				
 				for(Order order : orderList ) {
-					System.out.printf("%d  %s  %s   %d개  %d원   %s",
+					System.out.printf("%d       %s      %s       %d개      %d원       %s\n",
 							order.getOrderNo(),
 							order.getOrderDate(),
 							order.getSnackName(),
@@ -157,12 +158,15 @@ public class OrderView {
 		
 	}
 	
-	/**
+
+	/** 
 	 * 4. 주문수량 변경 - 주문 번호 입력 받아 수량 변경
 	 */
 	private void updateQuantity() {
 		
 		try {
+			ingOrder();
+			
 			System.out.println("\n[주문 수량 변경]\n");
 			System.out.print("주문 번호 입력 : ");
 			int orderNo = sc.nextInt();
@@ -174,7 +178,7 @@ public class OrderView {
 			int quantity = sc.nextInt();
 			
 			Order order = new Order();
-			order.setUserNo(loginUser.getUserNo());
+			order.setUserNo(MainView.loginUser.getUserNo());
 			order.setOrderNo(orderNo);
 			order.setQuantity(quantity);
 
@@ -193,16 +197,21 @@ public class OrderView {
 			e.printStackTrace();
 		}
 		
+		
 	}
 	
 	/**
 	 * 5. 주문 취소 - 주문 번호 입력 받아 주문 취소
 	 */
 	private void withdrawOrder() {
+		
 		System.out.println("\n[주문 취소]\n");
 		
 		try {
-			System.out.print("주문 번호 입력 : ");
+			
+			ingOrder();
+			
+			System.out.print("취소할 주문 번호 입력 : ");
 			int orderNo = sc.nextInt();
 			
 			while(true) {
@@ -210,7 +219,7 @@ public class OrderView {
 				char ce = sc.next().toUpperCase().charAt(0);
 				
 				if(ce == 'Y') {
-					int result = service.withdrawOrder(orderNo, loginUser.getUserNo());
+					int result = service.withdrawOrder(orderNo, MainView.loginUser.getUserNo());
 					
 					if(result>0) {
 						System.out.println("\n[선택한 주문이 취소되었습니다.]\n");
@@ -240,7 +249,61 @@ public class OrderView {
 	private void selectWithdraw() {
 		
 		System.out.println("\n[취소 내역 조회]\n");
-		
+		try {
+			List<Order> withdrawList = service.selectWithdraw(MainView.loginUser.getUserNo());
+			
+			if(withdrawList.isEmpty()) {
+				System.out.println("\n[조회 결과가 없습니다.]");
+			} else {
+				System.out.println(" 주문번호      주문날짜       상품명     수량    가격     배송상태");
+				System.out.println("----------------------------------------------------------");
+				
+				for(Order order : withdrawList ) {
+					System.out.printf("%d       %s      %s       %d개      %d원       %s\n",
+							order.getOrderNo(),
+							order.getOrderDate(),
+							order.getSnackName(),
+							order.getQuantity(),
+							order.getPrice(),
+							order.getShipping());
+				}
+			}
+
+		} catch(Exception e) {
+			System.out.println("\n<<내 취소 내역 조회 중 예외 발생>>\n");
+			e.printStackTrace();
+		}
 	}
 
+	/**
+	 * 결제완료 상태(수량변경/취소 가능)인 주문 목록 출력
+	 */
+	private void ingOrder() {
+		
+		try {
+			List<Order> ingOrderList = service.ingOrder(MainView.loginUser.getUserNo());
+			
+			if(ingOrderList.isEmpty()) {
+				System.out.println("\n[수정/취소 가능한 주문이 없습니다.]");
+			} else {
+				System.out.println(" 주문번호      주문날짜         상품명       수량      가격        배송상태");
+				System.out.println("------------------------------------------------------------------------");
+				
+				for(Order order : ingOrderList ) {
+					System.out.printf("%d       %s      %s       %d개      %d원       %s\n",
+							order.getOrderNo(),
+							order.getOrderDate(),
+							order.getSnackName(),
+							order.getQuantity(),
+							order.getPrice(),
+							order.getShipping());
+				}
+			}
+
+		} catch(Exception e) {
+			System.out.println("\n<<내 주문 내역 조회 중 예외 발생>>\n");
+			e.printStackTrace();
+		}
+	}
+	
 }

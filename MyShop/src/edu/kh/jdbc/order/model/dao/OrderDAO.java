@@ -95,10 +95,11 @@ public class OrderDAO {
 		return result;
 	}
 
-	/** 주문 수량 변경 DAO
+
+	/**주문 수량 변경 DAO
 	 * @param conn
 	 * @param order
-	 * @return result
+	 * @return
 	 * @throws Exception
 	 */
 	public int updateQuantity(Connection conn, Order order) throws Exception {
@@ -111,7 +112,7 @@ public class OrderDAO {
 			
 			pstmt.setInt(1, order.getQuantity());
 			pstmt.setInt(2, order.getOrderNo());
-			pstmt.setInt(3, order.getOrderNo());
+			pstmt.setInt(3, order.getUserNo());
 			
 			result = pstmt.executeUpdate();
 			
@@ -149,12 +150,14 @@ public class OrderDAO {
 		return result;
 	}
 	
+
 	/** 내 주문 내역 조회 DAO
 	 * @param conn
+	 * @param userNo
 	 * @return orderList
 	 * @throws Exception
 	 */
-	public List<Order> selectMyOrder(Connection conn) throws Exception {
+	public List<Order> selectMyOrder(Connection conn, int userNo) throws Exception {
 
 		List<Order> orderList = new ArrayList<>();
 		
@@ -163,7 +166,7 @@ public class OrderDAO {
 			String sql = prop.getProperty("selectMyOrder");
 			pstmt = conn.prepareStatement(sql);
 			
-//			pstmt.setInt(1, userNo);
+			pstmt.setInt(1, userNo);
 			
 			rs = pstmt.executeQuery();
 			
@@ -171,6 +174,11 @@ public class OrderDAO {
 				
 				Order order = new Order();
 				order.setOrderNo(rs.getInt("ORDER_NO"));
+				order.setOrderDate(rs.getString("ORDER_DATE"));
+				order.setSnackName(rs.getString("SNACK_NAME"));
+				order.setQuantity(rs.getInt("QUANTITY"));
+				order.setPrice(rs.getInt("PRICE"));
+				order.setShipping(rs.getString("SHIPPING"));
 				
 				orderList.add(order);
 			}
@@ -182,11 +190,82 @@ public class OrderDAO {
 		return orderList;
 	}
 
+	/** 내 취소 내역 조회 DAO
+	 * @param conn
+	 * @param userNo
+	 * @return withdrawList
+	 * @throws Exception
+	 */
+	public List<Order> selectWithdraw(Connection conn, int userNo) throws Exception {
 
+		List<Order> withdrawList = new ArrayList<>();
+		
+		try {
 
+			String sql = prop.getProperty("selectWithdraw");
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				Order order = new Order();
+				order.setOrderNo(rs.getInt("ORDER_NO"));
+				order.setOrderDate(rs.getString("ORDER_DATE"));
+				order.setSnackName(rs.getString("SNACK_NAME"));
+				order.setQuantity(rs.getInt("QUANTITY"));
+				order.setPrice(rs.getInt("PRICE"));
+				order.setShipping(rs.getString("SHIPPING"));
+				
+				withdrawList.add(order);
+			}
+			
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return withdrawList;
+	}
 
-	
-	
-	
+	/** 결제완료 상태(수량변경/취소 가능)인 주문 목록 조회 DAO
+	 * @param conn
+	 * @param userNo
+	 * @return ingOrderList
+	 * @throws Exception
+	 */
+	public List<Order> ingOrder(Connection conn, int userNo) throws Exception {
+
+		List<Order> ingOrderList = new ArrayList<>();
+		
+		try {
+
+			String sql = prop.getProperty("ingOrder");
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				Order order = new Order();
+				order.setOrderNo(rs.getInt("ORDER_NO"));
+				order.setOrderDate(rs.getString("ORDER_DATE"));
+				order.setSnackName(rs.getString("SNACK_NAME"));
+				order.setQuantity(rs.getInt("QUANTITY"));
+				order.setPrice(rs.getInt("PRICE"));
+				order.setShipping(rs.getString("SHIPPING"));
+				
+				ingOrderList.add(order);
+			}
+			
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return ingOrderList;
+	}
 	
 }

@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import edu.kh.jdbc.main.model.service.MainService;
 import edu.kh.jdbc.order.view.OrderView;
+import edu.kh.jdbc.order.vo.Order;
 import edu.kh.jdbc.user.view.UserView;
 import edu.kh.jdbc.user.vo.User;
 
@@ -106,7 +107,7 @@ public class MainView {
 						switch(input) {
 						
 						case 1: userView.userMenu(loginUser); break;
-						case 2: orderView.orderMenu(loginUser); break;
+						case 2: orderView.orderMenu(); break;
 						case 0: loginUser = null;
 							System.out.println("\n[로그아웃 되었습니다.]\n");
 							input=-1; break;

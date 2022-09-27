@@ -47,7 +47,7 @@ public class OrderService {
 	}
 
 	/** 주문 수량 변경 서비스
-	 * @param order
+	 * @param order 
 	 * @return result
 	 * @throws Exception
 	 */
@@ -63,7 +63,6 @@ public class OrderService {
 		
 		return result;
 	}
-
 	
 	/** 주문 취소 서비스
 	 * @param orderNo
@@ -84,15 +83,16 @@ public class OrderService {
 		return result;
 	}
 	
-	
+
 	/** 내 주문 내역 조회 서비스
+	 * @param userNo
 	 * @return orderList
 	 * @throws Exception
 	 */
-	public List<Order> selectMyOrder() throws Exception{
+	public List<Order> selectMyOrder(int userNo) throws Exception {
 		Connection conn = getConnection();
 		
-		List<Order> orderList = dao.selectMyOrder(conn);
+		List<Order> orderList = dao.selectMyOrder(conn, userNo);
 		
 		close(conn);
 		
@@ -100,7 +100,36 @@ public class OrderService {
 	}
 
 
+	/** 내 취소 내역 조회 서비스
+	 * @param userNo
+	 * @return withdrawList
+	 * @throws Exception
+	 */
+	public List<Order> selectWithdraw(int userNo) throws Exception {
+		Connection conn = getConnection();
+		
+		List<Order> withdrawList = dao.selectWithdraw(conn, userNo);
+		
+		close(conn);
+		
+		return withdrawList;
+	}
 
+
+	/** 결제완료 상태(수량변경/취소 가능)인 주문 목록 조회 서비스
+	 * @param userNo
+	 * @return ingOrderList
+	 * @throws Exception
+	 */
+	public List<Order> ingOrder(int userNo) throws Exception {
+		Connection conn = getConnection();
+		
+		List<Order> ingOrderList = dao.ingOrder(conn, userNo);
+		
+		close(conn);
+		
+		return ingOrderList;
+	}
 
 
 	

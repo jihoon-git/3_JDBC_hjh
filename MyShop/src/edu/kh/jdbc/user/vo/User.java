@@ -1,23 +1,17 @@
 package edu.kh.jdbc.user.vo;
 
+
 public class User {
-//	USER_NO NUMBER
-//	USER_ID VARCHAR2(20)
-//	USER_PW VARCHAR2(30)
-//	USER_NAME VARCHAR2(30)
-//	USER_PHONE VARCHAR2(30)
-//	USER_ADDR VARCHAR2(70)
-//	ENROLL_DATE DATE
-//	SECESSION_FL CHAR(1)
 	
-	private int userNo;
-	private String userId;
-	private String userPw;
-	private String userName;
-	private String userPhone;
-	private String userAddress;
-	private String enrollDate;
-	private String secessionFlag;
+	private int userNo; // 회원 번호
+	private String userId; // 회원 아이디
+	private String userPw; // 회원 비밀번호
+	private String userName; // 이름
+	private String userPhone; // 전화번호
+	private String userAddress; // 주소
+	private String enrollDate; // 가입일
+	private String secessionFlag; // 탈퇴 여부
+
 	
 	public User() {	}
 

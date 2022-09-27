@@ -1,7 +1,10 @@
 package edu.kh.jdbc.order.vo;
 
+import java.util.List;
+
 public class Order {
 
+	
 	private int orderNo; // 주문번호
 	private int userNo; // 구매자 회원번호
 	private String userName; //구매자 이름
@@ -129,8 +132,5 @@ public class Order {
 		this.withraw = withraw;
 	}
 
-	
-	
-	
 	
 }
