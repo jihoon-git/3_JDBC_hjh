@@ -100,10 +100,18 @@ SELECT * FROM TB_USER;
 
 COMMIT;
 
--- 회원가입
-INSERT INTO TB_USER
-VALUES(SEQ_USER_NO.NEXTVAL, ?, ?, ?, ?, 
-	?, DEFAULT, DEFAULT);
+-- 회원가입(아이디, 비밀번호, 이름, 전화번호, 주소)
+INSERT INTO TB_USER(USER_NO, USER_ID, USER_PW, USER_NAME, USER_PHONE, USER_ADDR)
+VALUES(SEQ_USER_NO.NEXTVAL, 'user01', 'pass123', '유저일', '010-1111-1111', '서울시 샘플구 샘플동');
+ROLLBACK;
+
+-- 아이디 중복 확인
+-- (중복되는 아이디가 입력되어도 탈퇴한 계정이면 중복 X)
+SELECT COUNT(*) FROM TB_USER
+WHERE USER_ID = 'asdf01'
+AND SECESSION_FL = 'N';
+
+-- 로그인
 
 -- 회원기능
 -- 내 회원정보 조회
@@ -292,8 +300,8 @@ SELECT * /*SNACK_NO, SNACK_NAME, PRICE*/
 FROM TB_SNACK;
 
 -- 주문하기(상품번호 입력받아 주문)
-INSERT INTO TB_ORDER
-VALUES (SEQ_ORDER_NO.NEXTVAL, 1, DEFAULT, 17, 1, DEFAULT, DEFAULT);
+INSERT INTO TB_ORDER(ORDER_NO, USER_NO, SNACK_NO, QUANTITY)
+VALUES (SEQ_ORDER_NO.NEXTVAL, 1, 17, 1);
 
 -- 주문 내역 메뉴
 -- 내 주문 내역 조회
