@@ -81,7 +81,7 @@ public class MemberDAO {
 	}
 
 
-	/**
+	/** 회원 정보 수정 DAO
 	 * @param conn
 	 * @param member
 	 * @return result

@@ -104,7 +104,7 @@ AND MEMBER_PW ='현재비밀번호';
 
 -- 회원 탈퇴(SECESSION_FL 컬럼의 값을 'Y'로 변경)
 UPDATE "MEMBER" SET
-SECESSION_FL = 'N'
+SECESSION_FL = 'Y'
 WHERE MEMBER_NO = ?
 AND MEMBER_PW = ?;
 

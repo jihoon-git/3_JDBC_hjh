@@ -173,7 +173,7 @@ public class MemberView {
 			
 			
 		} catch(Exception e) {
-			System.out.println("\n<<회원 목록 조회 중 예외 발생>>\n");
+			System.out.println("\n<<회원 정보 수정 중 예외 발생>>\n");
 			e.printStackTrace();
 		}
 	}
