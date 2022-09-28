@@ -96,7 +96,11 @@ public class OrderView {
 		System.out.println("[주문 하기]");
 		
 		try {
-			System.out.print("상품 번호 : ");
+			selectProduct();
+			
+			System.out.println();
+			
+			System.out.print("주문할 상품 번호 : ");
 			int snackNo = sc.nextInt();
 			
 			System.out.print("주문 수량 : ");
@@ -117,8 +121,7 @@ public class OrderView {
 				System.out.println("\n[주문 실패]\n");
 			}
 		} catch(Exception e) {
-			System.out.println("\n<<주문하기 실행 중 예외 발생>>\n");
-			e.printStackTrace();
+			System.out.println("\n<<존재하지 않는 상품 번호입니다.>>\n");
 		}
 		
 		
@@ -137,7 +140,7 @@ public class OrderView {
 			if(orderList.isEmpty()) {
 				System.out.println("\n[조회 결과가 없습니다.]");
 			} else {
-				System.out.println(" 주문번호      주문날짜         상품명       수량      가격        배송상태");
+				System.out.println(" 주문번호      주문날짜         상품명       수량      주문금액        배송상태");
 				System.out.println("------------------------------------------------------------------------");
 				
 				for(Order order : orderList ) {
@@ -171,7 +174,7 @@ public class OrderView {
 			if(ingOrderList.isEmpty()) {
 				System.out.println("\n[수정 가능한 주문이 없습니다.]");
 			} else {
-				System.out.println(" 주문번호      주문날짜         상품명       수량      가격        배송상태");
+				System.out.println(" 주문번호      주문날짜         상품명       수량      주문금액        배송상태");
 				System.out.println("------------------------------------------------------------------------");
 				
 				for(Order order : ingOrderList ) {
@@ -227,9 +230,9 @@ public class OrderView {
 			List<Order> ingOrderList = service.ingOrder(MainView.loginUser.getUserNo());
 			
 			if(ingOrderList.isEmpty()) {
-				System.out.println("\n[수정 가능한 주문이 없습니다.]");
+				System.out.println("\n[취소 가능한 주문이 없습니다.]");
 			} else {
-				System.out.println(" 주문번호      주문날짜         상품명       수량      가격        배송상태");
+				System.out.println(" 주문번호      주문날짜         상품명       수량      주문금액        배송상태");
 				System.out.println("------------------------------------------------------------------------");
 				
 				for(Order order : ingOrderList ) {
@@ -249,7 +252,7 @@ public class OrderView {
 			int orderNo = sc.nextInt();
 			
 				while(true) {
-					System.out.print("정말 주문을 취소 하시겠습니다?(Y/N) : ");
+					System.out.print("정말 주문을 취소 하시겠습니까?(Y/N) : ");
 					char ce = sc.next().toUpperCase().charAt(0);
 					
 					if(ce == 'Y') {
