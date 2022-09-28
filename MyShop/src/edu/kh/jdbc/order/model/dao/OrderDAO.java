@@ -102,7 +102,7 @@ public class OrderDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int updateQuantity(Connection conn, Order order) throws Exception {
+	public int updateQuantity(Connection conn, Order o) throws Exception {
 		int result = 0;
 		
 		try {
@@ -110,9 +110,9 @@ public class OrderDAO {
 			String sql = prop.getProperty("updateQuantity");
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, order.getQuantity());
-			pstmt.setInt(2, order.getOrderNo());
-			pstmt.setInt(3, order.getUserNo());
+			pstmt.setInt(1, o.getQuantity());
+			pstmt.setInt(2, o.getOrderNo());
+			pstmt.setInt(3, o.getUserNo());
 			
 			result = pstmt.executeUpdate();
 			

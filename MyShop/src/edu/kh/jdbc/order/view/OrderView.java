@@ -165,32 +165,49 @@ public class OrderView {
 	private void updateQuantity() {
 		
 		try {
-			ingOrder();
 			
-			System.out.println("\n[주문 수량 변경]\n");
-			System.out.print("주문 번호 입력 : ");
-			int orderNo = sc.nextInt();
-			sc.nextLine();
+			List<Order> ingOrderList = service.ingOrder(MainView.loginUser.getUserNo());
 			
-			boolean flag = true;
-			
-			System.out.print("변경할 수량 입력 : ");
-			int quantity = sc.nextInt();
-			
-			Order order = new Order();
-			order.setUserNo(MainView.loginUser.getUserNo());
-			order.setOrderNo(orderNo);
-			order.setQuantity(quantity);
-
-			int result = service.updateQuantity(order);
-
-			if(result>0) {
-				
-				System.out.println("\n[주문 수량이 변경 되었습니다.]\n");
+			if(ingOrderList.isEmpty()) {
+				System.out.println("\n[수정 가능한 주문이 없습니다.]");
 			} else {
-				System.out.println("\n[존재하지 않는 주문 번호입니다.]\n");
+				System.out.println(" 주문번호      주문날짜         상품명       수량      가격        배송상태");
+				System.out.println("------------------------------------------------------------------------");
+				
+				for(Order order : ingOrderList ) {
+					System.out.printf("%d       %s      %s       %d개      %d원       %s\n",
+							order.getOrderNo(),
+							order.getOrderDate(),
+							order.getSnackName(),
+							order.getQuantity(),
+							order.getPrice(),
+							order.getShipping());
+				}
+					
+					System.out.println();
+					System.out.println("\n[주문 수량 변경]\n");
+					System.out.print("주문 번호 입력 : ");
+					int orderNo = sc.nextInt();
+					sc.nextLine();
+					
+					System.out.print("변경할 수량 입력 : ");
+					int quantity = sc.nextInt();
+					
+					Order o = new Order();
+					o.setUserNo(MainView.loginUser.getUserNo());
+					o.setOrderNo(orderNo);
+					o.setQuantity(quantity);
+
+					int result = service.updateQuantity(o);
+
+					if(result>0) {
+						
+						System.out.println("\n[주문 수량이 변경 되었습니다.]\n");
+					} else {
+						System.out.println("\n[존재하지 않는 주문 번호입니다.]\n");
+					}
+					
 			}
-		
 		
 		} catch(Exception e) {
 			System.out.println("\n<<주문 수량 변경 중 예외 발생>>\n");
@@ -204,37 +221,54 @@ public class OrderView {
 	 * 5. 주문 취소 - 주문 번호 입력 받아 주문 취소
 	 */
 	private void withdrawOrder() {
-		
-		System.out.println("\n[주문 취소]\n");
-		
+	
 		try {
 			
-			ingOrder();
+			List<Order> ingOrderList = service.ingOrder(MainView.loginUser.getUserNo());
 			
+			if(ingOrderList.isEmpty()) {
+				System.out.println("\n[수정 가능한 주문이 없습니다.]");
+			} else {
+				System.out.println(" 주문번호      주문날짜         상품명       수량      가격        배송상태");
+				System.out.println("------------------------------------------------------------------------");
+				
+				for(Order order : ingOrderList ) {
+					System.out.printf("%d       %s      %s       %d개      %d원       %s\n",
+							order.getOrderNo(),
+							order.getOrderDate(),
+							order.getSnackName(),
+							order.getQuantity(),
+							order.getPrice(),
+							order.getShipping());
+				}
+					
+			System.out.println();
+					
+			System.out.println("\n[주문 취소]\n");
 			System.out.print("취소할 주문 번호 입력 : ");
 			int orderNo = sc.nextInt();
 			
-			while(true) {
-				System.out.print("정말 주문을 취소 하시겠습니다?(Y/N) : ");
-				char ce = sc.next().toUpperCase().charAt(0);
-				
-				if(ce == 'Y') {
-					int result = service.withdrawOrder(orderNo, MainView.loginUser.getUserNo());
+				while(true) {
+					System.out.print("정말 주문을 취소 하시겠습니다?(Y/N) : ");
+					char ce = sc.next().toUpperCase().charAt(0);
 					
-					if(result>0) {
-						System.out.println("\n[선택한 주문이 취소되었습니다.]\n");
-					} else {
-						System.out.println("\n[존재하지 않는 주문 번호입니다.]\n");
+					if(ce == 'Y') {
+						int result = service.withdrawOrder(orderNo, MainView.loginUser.getUserNo());
+						
+						if(result>0) {
+							System.out.println("\n[선택한 주문이 취소되었습니다.]\n");
+						} else {
+							System.out.println("\n[존재하지 않는 주문 번호입니다.]\n");
+						}
+						break;
+					} else if(ce=='N') {
+						System.out.println("\n[주문 취소를 철회했습니다.]\n");
+						break;
+					}else {
+						System.out.println("\n[Y 또는 N만 입력해주세요.]\n");
 					}
-					break;
-				} else if(ce=='N') {
-					System.out.println("\n[주문 취소를 철회했습니다.]\n");
-					break;
-				}else {
-					System.out.println("\n[Y 또는 N만 입력해주세요.]\n");
 				}
 			}
-
 		
 		} catch(Exception e) {
 			System.out.println("\n<<주문 취소 중 예외 발생>>\n");

@@ -51,10 +51,10 @@ public class OrderService {
 	 * @return result
 	 * @throws Exception
 	 */
-	public int updateQuantity(Order order) throws Exception {
+	public int updateQuantity(Order o) throws Exception {
 		Connection conn = getConnection();
 		
-		int result = dao.updateQuantity(conn, order);
+		int result = dao.updateQuantity(conn, o);
 		
 		if(result>0) commit(conn);
 		else rollback(conn);
