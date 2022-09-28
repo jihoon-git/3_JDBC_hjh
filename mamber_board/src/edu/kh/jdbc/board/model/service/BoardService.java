@@ -141,7 +141,7 @@ public class BoardService {
 		
 		if(result>0) {commit(conn);
 		result = boardNo;
-		// insert 성공시?? 필기 수정하기
+		// INSERT 성공 시 생성된 게시글 번호(boardNo)를 결과로 반환
 		
 		} else rollback(conn);
 		
